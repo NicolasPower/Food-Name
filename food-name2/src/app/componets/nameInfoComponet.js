@@ -1,5 +1,3 @@
-import { useState } from "react"
-import { useEffect } from "react";
 
 var isoCountries = new Object();
 var isoCountries = {
@@ -252,69 +250,22 @@ var isoCountries = {
 
 
 
-function Name() {
-    const [nameData, setNameData] = useState(null);
-    const [name, setName] = useState(null);
-    const [nameBackground, setNameBackground] = useState(null);
-    const [song, setSong] = useState(null);
-
-
-    const [isloading, setisLoading] = useState(true)
-
-
-    const firstName = sessionStorage.getItem('firstName');
-    const lastName = sessionStorage.getItem('lastName');
+function NameInfo() {
     
-  
-    useEffect(() => {
-      fetch('https://v2.namsor.com/NamSorAPIv2/api2/json/origin/' + firstName + '/' + lastName, {
-        method: 'GET',
-        headers: { 'X-API-KEY': '2332cfd4e8ddf0ebfe675cee251d65e9' },
-      })
-        .then((response) => response.json())
-        .then((json) => {
-          setNameData(json);
-          sessionStorage.setItem('nameData', JSON.stringify(json));
-          setName(firstName + ' ' + lastName);
-          setisLoading(false);
-        })
-        .catch((err) => {
-            console.error(err);
-            setisLoading(false)
-        });
-    }, [firstName, lastName]);
-    
+    var data = sessionStorage.getItem('nameData')
+    var countrycode = data.countryOrigin
 
-    useEffect(() => {
-        if(!isloading){
-            nameDataget()
-        }
-    })
-
-    function nameDataget(){
-        var country = isoCountries[nameData.countryOrigin]
-        setNameBackground('wow so cool ur name originates from '+ country);
-    }
-
-    // function getSong(){
-    //     fetch('https://api.spotify.com/v1/search?q=top+50&type=album&market='+nameData.countryOrigin+'&limit=1&offset=0/', {
-    //     method: 'GET',
-    //     headers: { 'Authorization': '7dde9f0df864412489a14ec60fccfde4' },
-    //   })
-        
-    // }
-
-    if(isloading){
-        return <h1 className='p-1'>loading</h1>;
+    if(isoCountries.hasOwnProperty('AU')){
+        console.log(countrycode)
     }
     else{
-        return (
-        <body className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-r from-purple-500 to-blue-500">
-            <p className='p-1'>{name}</p>
-            <p>{nameBackground}</p>
-        </body>
-        );
+        console.log('bye')
     }
+  
+    return (
+        <p className='p-1'>{name}</p>
+
+    );
   }
 
-export default Name
+export default NameInfo

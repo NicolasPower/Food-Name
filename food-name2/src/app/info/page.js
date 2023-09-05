@@ -5,39 +5,21 @@
 
 
 import Name from '../componets/nameComponet'
+import NameInfo from '../componets/nameInfoComponet';
+
 import { useRouter } from 'next/navigation'
 import { useState } from 'react';
-
-// function nameInfo(){
-//   const[nameData, setNameData] = useState(null);
-//   var firstName = sessionStorage.getItem('firstName')
-//   var lastName = sessionStorage.getItem('lastName')
-
-//   //useEffect(() => {
-//     fetch('https://v2.namsor.com/NamSorAPIv2/api2/json/origin/'+firstName+'/'+lastName, {
-//       method: 'GET',
-//       headers: {'X-API-KEY': '2332cfd4e8ddf0ebfe675cee251d65e9'}
-//     })
-//     .then(response => response.json)
-//     .then(json => setNameData(json))
-//     .catch(err => console.error(err))
-//   //}, []);
-
-//   sessionStorage.setItem('name', firstName + " " + lastName)
-//   sessionStorage.setItem('nameData', nameData)
-// }
 
 
 export default function Home() {
   const router = useRouter()  
-  //nameInfo();
   return (
       <htnml>
           <head>
 
           </head>
           <body className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-r from-purple-500 to-blue-500">
-        
+{/*         
             
             <div className="p-1">
               <div //name box 
@@ -59,6 +41,7 @@ export default function Home() {
               <div //Name info
               className="bg-blue-800 flex items-center justify-center rounded content-center">
                 <p className="p-1">NAME INFO</p>
+                <NameInfo/>
               </div>
             </div>
             
@@ -79,7 +62,8 @@ export default function Home() {
                 </p>
               </div>
             </div>
-          
+           */}
+           <Name/>
           </body>
       </htnml>
       
