@@ -261,6 +261,8 @@ function Name() {
     const [token, setToken] = useState(null);
     const [albumLink, setAlbumLink] = useState(null);
     const [albumName, setAlbumName] = useState(null)
+    const [recipeName, setRecipeName] = useState(null)
+    const [recipeLink, setRecipeLink] = useState(null)
 
     const [isloading, setisLoading] = useState(true)
 
@@ -294,6 +296,7 @@ function Name() {
         if(!isloading){
             nameDataget()
             getSong();
+            getRecipe();
         }
     })
 
@@ -343,7 +346,20 @@ function Name() {
     }
 
     function getRecipe(){
-        
+        console.log(country);
+        //var spacelessCountry = country.replace(" ", "%20");
+        fetch('https://api.edamam.com/api/recipes/v2?type=public&q='+country+'&app_id=542b0f76&app_key=%20034c1224c81ad9191653b3809e4172dd%09', {
+        method: 'GET'
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          setRecipeName(json.hits[0].recipe.label);
+          setRecipeLink(json.hits[0].recipe.shareAs)
+          console.log(recipeName)
+        })
+        .catch((err) => {
+            console.error(err);
+        });
     }
 
     if(isloading){
@@ -355,7 +371,8 @@ function Name() {
             <p className='p-1'>{name}</p>
             <p>{nameBackground}</p>
             <p> <a href={albumLink}>{albumName}</a> is a popular playlist from {nameBackground}</p>
-            
+            <p>here is a popular recipe from there</p>
+            <a href={recipeLink}>{recipeName}</a>
         </div>
         );
     }
