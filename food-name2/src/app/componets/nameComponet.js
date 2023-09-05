@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useEffect } from "react";
 
+
 var isoCountries = new Object();
 var isoCountries = {
     'AF' : 'Afghanistan',
@@ -256,16 +257,21 @@ function Name() {
     const [nameData, setNameData] = useState(null);
     const [name, setName] = useState(null);
     const [nameBackground, setNameBackground] = useState(null);
-    const [song, setSong] = useState(null);
-
+    const [country, setCountry] = useState(null);
+    const [token, setToken] = useState(null);
+    const [albumLink, setAlbumLink] = useState(null);
+    const [albumName, setAlbumName] = useState(null)
 
     const [isloading, setisLoading] = useState(true)
-
 
     const firstName = sessionStorage.getItem('firstName');
     const lastName = sessionStorage.getItem('lastName');
     
-  
+    const axios = require('axios');
+    var client_id = '7dde9f0df864412489a14ec60fccfde4';
+    var client_secret = '279312d59dbb4c36a6d43d977c8f4dcb';
+
+
     useEffect(() => {
       fetch('https://v2.namsor.com/NamSorAPIv2/api2/json/origin/' + firstName + '/' + lastName, {
         method: 'GET',
@@ -274,7 +280,6 @@ function Name() {
         .then((response) => response.json())
         .then((json) => {
           setNameData(json);
-          sessionStorage.setItem('nameData', JSON.stringify(json));
           setName(firstName + ' ' + lastName);
           setisLoading(false);
         })
@@ -288,31 +293,70 @@ function Name() {
     useEffect(() => {
         if(!isloading){
             nameDataget()
+            getSong();
         }
     })
 
     function nameDataget(){
-        var country = isoCountries[nameData.countryOrigin]
+        setCountry(isoCountries[nameData.countryOrigin])
         setNameBackground('wow so cool ur name originates from '+ country);
     }
 
-    // function getSong(){
-    //     fetch('https://api.spotify.com/v1/search?q=top+50&type=album&market='+nameData.countryOrigin+'&limit=1&offset=0/', {
-    //     method: 'GET',
-    //     headers: { 'Authorization': '7dde9f0df864412489a14ec60fccfde4' },
-    //   })
+    function getSong(){
+        const authOptions = {
+            method: 'post',
+            url: 'https://accounts.spotify.com/api/token',
+            headers: {
+              'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: 'grant_type=client_credentials',
+          };
+          
+          axios(authOptions)
+            .then((authResponse) => {
+              if (authResponse.status === 200) {
+                const token = authResponse.data.access_token;
+                setToken(token)
+                const options = {
+                  method: 'get',
+                  url: 'https://api.spotify.com/v1/search?q=top+50+'+country+'+songs&type=playlist&market='+nameData.countryOrigin+'&limit=1&offset=0',
+                  headers: {
+                    'Authorization': 'Bearer ' + token,
+                  },
+                };
+          
+                return axios(options);
+              } else {
+                console.error('Authentication failed');
+              }
+            })
+            .then((spotifyResponse) => {
+
+              setAlbumLink(spotifyResponse.data.playlists.items[0].external_urls.spotify);
+              setAlbumName(spotifyResponse.data.playlists.items[0].name)
+
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+    }
+
+    function getRecipe(){
         
-    // }
+    }
 
     if(isloading){
         return <h1 className='p-1'>loading</h1>;
     }
     else{
         return (
-        <body className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-r from-purple-500 to-blue-500">
+        <div className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-r from-purple-500 to-blue-500">
             <p className='p-1'>{name}</p>
             <p>{nameBackground}</p>
-        </body>
+            <p> <a href={albumLink}>{albumName}</a> is a popular playlist from {nameBackground}</p>
+            
+        </div>
         );
     }
   }
