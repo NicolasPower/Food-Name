@@ -2,41 +2,26 @@
 
 import { useRouter } from 'next/navigation'
 import { stringify } from 'querystring';
-
-
-
-
-
+import { useEffect, useState } from 'react';
+import { headers } from '../../next.config';
+//import { error } from 'console';
 
 export default function Home() {
   const router = useRouter()
-  function nameInfo(){
+  function getData(){
+    
     
     let firstName = (document.getElementById("firstName").value);
     let lastName = (document.getElementById("lastName").value);
-    
+    sessionStorage.setItem('firstName', firstName)
+    sessionStorage.setItem('lastName', lastName)
+
     if(firstName == '' || lastName == ''){
       alert("enter a name")
     }
     else{
-      var request = new XMLHttpRequest();
-      sessionStorage.setItem("Name", firstName + " " + lastName)
-      request.open('GET', 'https://v2.namsor.com/NamSorAPIv2/api2/json/origin/'+firstName+'/'+lastName);
-    
-      request.setRequestHeader('X-API-KEY', '2332cfd4e8ddf0ebfe675cee251d65e9');
-      
-      request.onreadystatechange = function () {
-        if (this.readyState === 4) {
-          console.log('Status:', this.status);
-          console.log('Headers:', this.getAllResponseHeaders());
-          console.log('Body:', this.responseText);
-        }
-      };
-        sessionStorage.setItem("nameData", this.responseText)
-      request.send();
       router.push('/info')
     }
-    
   }
 
   return (
@@ -69,7 +54,7 @@ export default function Home() {
           type='button'//Button
           className='bg-emerald-800 border-gray-600 placeholder-gray-400 text-white focus:bg-emerald-500 focus:font-bold border text-sm basis-2/9 w-2/9 p-2.5'
           id="button"
-          onClick={() => nameInfo()}>
+          onClick={() => getData()}>
           Yum Time
         </button>
         <script>
