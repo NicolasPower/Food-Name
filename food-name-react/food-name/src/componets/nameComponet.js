@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { useRouter } from 'next/navigation'
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+window.Buffer = window.Buffer || require("buffer").Buffer; 
+
+const spotifyClientKey = process.env.REACT_APP_SPOTIFY_CLIENT_KEY;
+const spotifySecretKey = process.env.REACT_APP_SPOTIFY_SECRET_KEY;
+const namsorKey = process.env.REACT_APP_NAMSOR_KEY;
+const edamamKey = process.env.REACT_APP_EDAMAM_KEY;
+
 
 var isoCountries = new Object();
 var isoCountries = {
@@ -269,11 +278,12 @@ function Name() {
   const firstName = sessionStorage.getItem("firstName");
   const lastName = sessionStorage.getItem("lastName");
 
-  const router = useRouter()
+  
 
-  const axios = require("axios");
-  var client_id = "7dde9f0df864412489a14ec60fccfde4";
-  var client_secret = "279312d59dbb4c36a6d43d977c8f4dcb";
+  const router = useNavigate()
+
+  //const axios = require("axios");
+
 
   useEffect(() => {
     fetch(
@@ -283,7 +293,7 @@ function Name() {
         lastName,
       {
         method: "GET",
-        headers: { "X-API-KEY": "2332cfd4e8ddf0ebfe675cee251d65e9" },
+        headers: { "X-API-KEY": namsorKey },
       }
     )
       .then((response) => response.json())
@@ -318,7 +328,7 @@ function Name() {
         headers: {
           Authorization:
             "Basic " +
-            Buffer.from(client_id + ":" + client_secret).toString("base64"),
+            Buffer.from(spotifyClientKey + ":" + spotifySecretKey).toString("base64"),
           "Content-Type": "application/x-www-form-urlencoded",
         },
         data: "grant_type=client_credentials",
@@ -360,12 +370,14 @@ function Name() {
     }
   }
 
+
+
   function getRecipe() {
     if (loadingRecipe) {
       fetch(
         "https://api.edamam.com/api/recipes/v2?type=public&q=" +
           country +
-          "&app_id=542b0f76&app_key=%20034c1224c81ad9191653b3809e4172dd%09",
+          "&app_id=542b0f76&app_key=%20"+edamamKey+"%09",
         {
           method: "GET",
         }
@@ -422,7 +434,7 @@ function Name() {
           type='button'//Button
           className='bg-emerald-800 border-gray-600 placeholder-gray-400 text-white focus:bg-emerald-500 focus:font-bold border text-sm w-1/5 p-1 rounded'
           id="button"
-          onClick={() => router.push('/')}>
+          onClick={() => router('/')}>
           Back
         </button>
       </div>

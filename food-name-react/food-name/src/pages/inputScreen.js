@@ -1,10 +1,14 @@
 
 //import { useRouter } from 'next/navigation'
 
+import { useNavigate } from "react-router-dom";
+
 //import { error } from 'console';
 
-export default function Home() {
+export default function Home(props) {
   //const router = useRouter()
+
+  const router = useNavigate();
   function getData(){
     
     
@@ -17,7 +21,7 @@ export default function Home() {
       alert("enter a name")
     }
     else{
-      //router.push('/info')
+      router('/Info')
     }
   }
 

@@ -6,6 +6,19 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// const spotifyClientKey = process.env.SPOTIFY_CLIENT_KEY;
+// const spotifySecretKey = process.env.SPOTIFY_SECRET_KEY;
+// const namsorKey = process.env.NAMSOR_KEY;
+// const edamamKey = process.env.EDAMAM_KEY;
+
+// sessionStorage.setItem('spotifyClientKey', spotifyClientKey);
+// sessionStorage.setItem('spotifySecretKey', spotifySecretKey);
+// sessionStorage.setItem('namsorKey', namsorKey);
+// sessionStorage.setItem('edamamKey', edamamKey);
+
+
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
