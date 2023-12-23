@@ -4,10 +4,10 @@ const https = require('https')
 const axios = require('axios'); // Import Axios library
 
 // Keys
-const NAMSORKEY = '2332cfd4e8ddf0ebfe675cee251d65e9';
-const SPOTIFYCLIENTKEY = '7dde9f0df864412489a14ec60fccfde4';
-const SPOTIFYSECRETKEY = '279312d59dbb4c36a6d43d977c8f4dcb';
-const EDAMAMKEY ='034c1224c81ad9191653b3809e4172dd';
+const NAMSORKEY = 'INSERT_KEY';
+const SPOTIFYCLIENTKEY = 'INSERT_KEY';
+const SPOTIFYSECRETKEY = 'INSERT_KEY';
+const EDAMAMKEY ='INSERT_KEY';
 
 //country data
 const isoCountries = {
