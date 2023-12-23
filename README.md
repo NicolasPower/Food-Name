@@ -1,0 +1,1 @@
+Food Name is web based applicationt that finds the country of origin of a given name and gives a recipe and a playlist from that country. Food name was developed as part of a cloud computing unit during my studies and was hosted on AWS utilisng EC2 instances and a S3 Bucket.
